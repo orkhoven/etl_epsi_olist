@@ -282,7 +282,6 @@ with st.expander("Besoin d'un coup de pouce ? (indices, à n'ouvrir qu'en cas de
     "- `total_payment_value`\n"
     "- `delivery_delay_days`\n"
     "- `is_late`\n"
-)
 
 st.markdown("---")
 
