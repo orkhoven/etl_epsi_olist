@@ -284,8 +284,6 @@ with st.expander("Besoin d'un coup de pouce ? (indices, à n'ouvrir qu'en cas de
     "- `is_late`\n"
 )
 
-st.markdown("---")
-
 # ---------------------------
 # SECTION 3 – Upload + GitHub
 # ---------------------------
