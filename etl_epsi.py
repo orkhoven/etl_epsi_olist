@@ -165,39 +165,33 @@ st.title("TP ETL – Olist (e-commerce brésilien)")
 col_intro, col_right = st.columns([2, 1])
 
 with col_intro:
-    st.markdown("""
-### Contexte métier
-
-Vous travaillez dans l’équipe **Data** d’un acteur e-commerce (Olist) qui vend sur des 
-marketplaces au Brésil.
-
-On vous demande de construire un **pipeline ETL** qui part des fichiers bruts 
-(Olist sur Kaggle) pour produire un **dataset analytique au niveau de la commande** 
-(permettant d’analyser les délais de livraison, le chiffre d’affaires, etc.).
-
-Votre travail doit :
-
-1. **Extraire** les données depuis plusieurs fichiers CSV (Kaggle Olist).
-2. **Transformer** les données (nettoyage, jointures, agrégations, calcul de KPIs).
-3. **Charger** le résultat final dans un fichier `olist_orders_enrichies.csv` 
-   (ou équivalent) prêt pour l’analyse BI / data science.
-    """)
+    st.markdown(
+        "### Contexte métier\n\n"
+        "Vous travaillez dans l’équipe **Data** d’un acteur **e-commerce** (Olist) qui vend sur des "
+        "marketplaces au Brésil.\n\n"
+        "On vous demande de construire un **pipeline ETL** qui part des fichiers bruts "
+        "(Olist sur Kaggle) pour produire un **dataset analytique au niveau de la commande** "
+        "(permettant d’analyser les délais de livraison, le chiffre d’affaires, etc.).\n\n"
+        "Votre travail doit :\n\n"
+        "1. **Extraire** les données depuis plusieurs fichiers CSV (Kaggle Olist).\n"
+        "2. **Transformer** les données (nettoyage, jointures, agrégations, calcul de KPIs).\n"
+        "3. **Charger** le résultat final dans un fichier `olist_orders_enrichies.csv` "
+        "(ou équivalent) prêt pour l’analyse BI / data science.\n"
+    )
 
 with col_right:
-    st.info("""
-#### Dataset Olist
-
-- **Nom** : Brazilian E-Commerce Public Dataset by Olist  
-- **Source** : Kaggle  
-- **Lien** :  
-  [Ouvrir sur Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
-
-**Fichiers minimum à utiliser :**
-- `olist_orders_dataset.csv`  
-- `olist_order_items_dataset.csv`  
-- `olist_order_payments_dataset.csv`  
-- `olist_customers_dataset.csv`
-    """)
+    st.info(
+        "#### Dataset Olist\n\n"
+        "- **Nom** : Brazilian E-Commerce Public Dataset by Olist  \n"
+        "- **Source** : Kaggle  \n"
+        "- **Lien** :  \n"
+        "  [Ouvrir sur Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)\n\n"
+        "**Fichiers minimum à utiliser :**\n"
+        "- `olist_orders_dataset.csv`  \n"
+        "- `olist_order_items_dataset.csv`  \n"
+        "- `olist_order_payments_dataset.csv`  \n"
+        "- `olist_customers_dataset.csv`\n"
+    )
 
 st.markdown("---")
 
@@ -206,90 +200,221 @@ st.markdown("---")
 # ---------------------------
 st.header("1. Histoire du TP & objectifs pédagogiques")
 
-st.markdown("""
-**Histoire :**
-
-Olist souhaite disposer d’un **tableau de bord** qui permet de répondre à des questions du type :
-
-- Combien de commandes avons-nous livré à temps / en retard ?
-- Quels sont les montants moyens des commandes ?
-- Comment évolue le chiffre d’affaires par mois ?
-- Quels clients commandent le plus souvent ?
-
-Pour cela, il faut construire un **dataset de faits** au niveau de la commande (grain = `order_id`)
-à partir des différentes tables brutes.
-
----
-
-**Objectifs pédagogiques (ETL) :**
-
-- Manipuler un dataset multiparties (plusieurs tables reliées par des clés).
-- Mettre en place un **pipeline ETL en Python** avec `pandas`.
-- Gérer des **dates**, des **montants**, des **agrégations** et des indicateurs dérivés.
-- Produire un **fichier final propre et documenté**.
-- Versionner le travail en l’envoyant automatiquement sur GitHub (comme au TP 1).
-""")
+st.markdown(
+    "**Histoire :**\n\n"
+    "Olist souhaite disposer d’un **tableau de bord** qui permet de répondre à des questions du type :\n\n"
+    "- Combien de commandes avons-nous livré à temps / en retard ?\n"
+    "- Quels sont les montants moyens des commandes ?\n"
+    "- Comment évolue le chiffre d’affaires par mois ?\n"
+    "- Quels clients commandent le plus souvent ?\n\n"
+    "Pour cela, il faut construire un **dataset de faits** au niveau de la commande (grain = `order_id`) "
+    "à partir des différentes tables brutes.\n\n"
+    "---\n\n"
+    "**Objectifs pédagogiques (ETL) :**\n\n"
+    "- Manipuler un dataset multiparties (plusieurs tables reliées par des clés).\n"
+    "- Mettre en place un **pipeline ETL en Python** avec `pandas`.\n"
+    "- Gérer des **dates**, des **montants**, des **agrégations** et des indicateurs dérivés.\n"
+    "- Produire un **fichier final propre et documenté**.\n"
+    "- Versionner le travail en l’envoyant automatiquement sur GitHub (comme au TP 1).\n"
+)
 
 st.markdown("---")
 
 # ---------------------------
-# SECTION 2 – Travail demandé aux étudiants
+# SECTION 2 – Travail demandé
 # ---------------------------
 st.header("2. Travail demandé (pipeline ETL à coder en Python)")
 
-st.markdown("""
-Vous devez **coder vous-même** le pipeline ETL (dans un notebook ou un fichier `.py`).
+st.markdown(
+    "Vous devez **coder vous-même** le pipeline ETL (dans un notebook ou un fichier `.py`).\n\n"
+    "### Étape A – Extraction\n\n"
+    "1. Télécharger le dataset Olist depuis Kaggle.\n"
+    "2. Charger au minimum les CSV suivants avec `pandas.read_csv` :\n"
+    "   - `olist_orders_dataset.csv`\n"
+    "   - `olist_order_items_dataset.csv`\n"
+    "   - `olist_order_payments_dataset.csv`\n"
+    "   - `olist_customers_dataset.csv`\n\n"
+    "### Étape B – Transformation\n\n"
+    "À partir de ces tables, vous devez :\n\n"
+    "1. **Nettoyage & typage**\n"
+    "   - Convertir en `datetime` les colonnes de dates (`order_purchase_timestamp`, "
+    "`order_approved_at`, `order_delivered_customer_date`, "
+    "`order_estimated_delivery_date`, etc.).\n"
+    "   - Vérifier les valeurs manquantes importantes et documenter vos choix "
+    "     (suppression de lignes, imputation simple…).\n\n"
+    "2. **Jointures pour obtenir une table au niveau `order_id`**\n"
+    "   - Joindre `orders` avec `customers` (clé : `customer_id`).\n"
+    "   - Joindre `orders` avec `order_items` (clé : `order_id`).\n"
+    "   - Joindre `orders` avec `order_payments` (clé : `order_id`).\n\n"
+    "3. **Agrégations au niveau de la commande**\n"
+    "   Pour chaque `order_id`, calculer par exemple :\n"
+    "   - `nb_items` : nombre total de lignes dans `order_items` (ou quantité totale).\n"
+    "   - `total_products_value` : somme de `price`.\n"
+    "   - `total_freight_value` : somme de `freight_value`.\n"
+    "   - `total_order_value` = `total_products_value` + `total_freight_value`.\n"
+    "   - `nb_payments` : nombre de lignes dans `order_payments`.\n"
+    "   - `total_payment_value` : somme de `payment_value`.\n\n"
+    "4. **Indicateurs de délai de livraison**\n"
+    "   - `delivery_delay_days` = "
+    "`order_delivered_customer_date` − `order_estimated_delivery_date` (en jours).\n"
+    "   - `is_late` :\n"
+    "     - 1 si livraison réelle > date de livraison estimée\n"
+    "     - 0 sinon\n\n"
+    "5. **Variables temporelles supplémentaires (optionnel mais recommandé)**\n"
+    "   - `order_purchase_date` (date sans heure)\n"
+    "   - `order_purchase_year`\n"
+    "   - `order_purchase_month`\n"
+    "   - etc.\n\n"
+    "### Étape C – Chargement\n\n"
+    "Exporter un **dataset final** au format CSV, par exemple :\n\n"
+    "`olist_orders_enrichies.csv`\n\n"
+    "Ce fichier doit **au minimum** contenir les colonnes suivantes :\n\n"
+    "- `order_id`\n"
+    "- `customer_unique_id`\n"
+    "- `order_status`\n"
+    "- `order_purchase_timestamp`\n"
+    "- `order_approved_at`\n"
+    "- `order_delivered_customer_date`\n"
+    "- `order_estimated_delivery_date`\n"
+    "- `nb_items`\n"
+    "- `total_products_value`\n"
+    "- `total_freight_value`\n"
+    "- `total_order_value`\n"
+    "- `nb_payments`\n"
+    "- `total_payment_value`\n"
+    "- `delivery_delay_days`\n"
+    "- `is_late`\n"
+)
 
-### Étape A – Extraction
+st.markdown("---")
 
-1. Télécharger le dataset Olist depuis Kaggle.
-2. Charger au minimum les CSV suivants avec `pandas.read_csv` :
-   - `olist_orders_dataset.csv`
-   - `olist_order_items_dataset.csv`
-   - `olist_order_payments_dataset.csv`
-   - `olist_customers_dataset.csv`
+# ---------------------------
+# SECTION 3 – Upload + GitHub
+# ---------------------------
+st.header("3. Dépôt du travail (upload + envoi GitHub)")
 
-### Étape B – Transformation
+st.markdown(
+    "Vous allez maintenant **envoyer votre travail** via cette interface.\n\n"
+    "- Fichier attendu :  \n"
+    "  - soit votre **dataset final** (`olist_orders_enrichies.csv`),  \n"
+    "  - soit un fichier `.py` ou un notebook exporté (`.ipynb` converti en `.py`) "
+    "    qui contient le pipeline ETL.\n"
+    "- Le fichier sera automatiquement déposé dans le dépôt GitHub du cours "
+    "  dans le dossier `submissions_olist/`.\n"
+)
 
-À partir de ces tables, vous devez :
+with st.expander("Rappel : structure minimale attendue si vous envoyez un CSV"):
+    st.code("\n".join(REQUIRED_FINAL_COLUMNS), language="text")
 
-1. **Nettoyage & typage**
-   - Convertir en `datetime` les colonnes de dates (`order_purchase_timestamp`, 
-     `order_approved_at`, `order_delivered_customer_date`, 
-     `order_estimated_delivery_date`, etc.).
-   - Vérifier les valeurs manquantes importantes et documenter vos choix
-     (suppression de lignes, imputation simple…).
+with st.form("upload_form"):
+    col1, col2 = st.columns(2)
 
-2. **Jointures pour obtenir une table au niveau `order_id`**
-   - Joindre `orders` avec `customers` (clé : `customer_id`).
-   - Joindre `orders` avec `order_items` (clé : `order_id`).
-   - Joindre `orders` avec `order_payments` (clé : `order_id`).
+    with col1:
+        student_name = st.text_input("Votre nom / prénom (obligatoire)")
+        student_email = st.text_input("Votre e-mail (optionnel)")
+    with col2:
+        group = st.text_input("Groupe / Classe (optionnel)")
+        comment = st.text_area("Commentaire (optionnel)")
 
-3. **Agrégations au niveau de la commande**
-   Pour chaque `order_id`, calculer par exemple :
-   - `nb_items` : nombre total de lignes dans `order_items` (ou quantité totale).
-   - `total_products_value` : somme de `price`.
-   - `total_freight_value` : somme de `freight_value`.
-   - `total_order_value` = `total_products_value` + `total_freight_value`.
-   - `nb_payments` : nombre de lignes dans `order_payments`.
-   - `total_payment_value` : somme de `payment_value`.
+    uploaded_file = st.file_uploader(
+        "Déposez ici votre fichier final (CSV ou .py)",
+        type=["csv", "py"],
+        help="Exemple : olist_orders_enrichies.csv ou etl_olist.py"
+    )
 
-4. **Indicateurs de délai de livraison**
-   - `delivery_delay_days` = 
-     `order_delivered_customer_date` − `order_estimated_delivery_date` (en jours).
-   - `is_late` :
-     - 1 si livraison réelle > date de livraison estimée
-     - 0 sinon
+    submitted = st.form_submit_button("Envoyer vers GitHub")
 
-5. **Variables temporelles supplémentaires (optionnel mais recommandé)**
-   - `order_purchase_date` (date sans heure)
-   - `order_purchase_year`
-   - `order_purchase_month`
-   - etc.
+if submitted:
+    if not student_name.strip():
+        st.error("Merci de renseigner au minimum votre nom / prénom.")
+    elif uploaded_file is None:
+        st.error("Merci de déposer un fichier avant de soumettre.")
+    else:
+        # Lecture du fichier uploadé
+        file_bytes = uploaded_file.read()
+        try:
+            file_text = file_bytes.decode("utf-8", errors="ignore")
+        except Exception:
+            file_text = ""
 
-### Étape C – Chargement
+        # Petit check humour anti-LLM
+        if funny_llm_detector(file_text):
+            st.error(
+                "Détection d'une forte odeur de ChatGPT/Copilot dans ce fichier.\n\n"
+                "Merci de **coder vous-même** votre ETL, sinon le prof sera triste."
+            )
+        else:
+            # S'il s'agit d'un CSV, tentative de validation rapide
+            if uploaded_file.name.lower().endswith(".csv"):
+                import io
+                try:
+                    df = pd.read_csv(io.BytesIO(file_bytes), low_memory=False)
+                    errors, warnings = validate_final_csv(df)
+                    if errors:
+                        st.error("Problèmes détectés dans votre dataset final :")
+                        for e in errors:
+                            st.write(f"- {e}")
+                    else:
+                        if warnings:
+                            st.warning("Remarques sur votre dataset :")
+                            for w in warnings:
+                                st.write(f"- {w}")
+                        else:
+                            st.success(
+                                "Validation basique OK – votre dataset a l'air cohérent "
+                                "(au moins structurellement)."
+                            )
+                except Exception as e:
+                    st.warning(
+                        f"Impossible de lire le CSV pour validation: {e}. "
+                        "Le fichier sera quand même envoyé sur GitHub."
+                    )
 
-Exporter un **dataset final** au format CSV, par exemple :
+            # Construction du chemin GitHub
+            now = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+            safe_name = student_name.strip().replace(" ", "_")
+            base_filename = os.path.splitext(uploaded_file.name)[0]
+            ext = os.path.splitext(uploaded_file.name)[1]
 
-```text
-olist_orders_enrichies.csv
+            filename = f"{now}__{safe_name}__{base_filename}{ext}"
+            github_path = f"{SUBMISSIONS_DIR}/{filename}"
+
+            meta_comment = (
+                f"Nom: {student_name} | Email: {student_email} | "
+                f"Groupe: {group} | Commentaire: {comment}"
+            )
+            commit_message = (
+                f"TP Olist ETL – dépôt de {student_name} – {now}"
+            )
+
+            # Concaténer un petit header texte dans le fichier si c'est du .py
+            # (pour garder les métadonnées dans le repo)
+            if ext.lower() == ".py" and file_text:
+                header = (
+                    "# === META ETUDIANT ===\n"
+                    f"# {meta_comment}\n"
+                    "# =====================\n\n"
+                )
+                new_text = header + file_text
+                file_bytes = new_text.encode("utf-8")
+
+            try:
+                github_commit_file(
+                    github_path,
+                    file_bytes,
+                    commit_message
+                )
+                st.success(
+                    f"Fichier envoyé sur GitHub sous : `{github_path}`"
+                )
+            except Exception as e:
+                st.error(
+                    f"Erreur lors de l'envoi vers GitHub : {e}"
+                )
+
+st.markdown("---")
+
+st.caption(
+    "Ce TP correspond à la deuxième partie du cours ETL : "
+    "mise en pratique avancée avec un dataset e-commerce multi-tables (Olist)."
+)
